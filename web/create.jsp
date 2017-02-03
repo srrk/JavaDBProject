@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="style.css" type="text/css"></link>
     </head>
     <body>
-       
+       <!-- Code is changed on Mac -->
         <div>
             <fieldset>
                 <legend class="legend">Edit Product</legend>
