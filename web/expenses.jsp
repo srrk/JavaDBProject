@@ -25,12 +25,33 @@
             url = "jdbc:sqlite:/tmp/test.db"
         />
         
+        <%-- <c:set var="noOfRows" value="${param.next}"></c:set> --%>
+        
+           
+        
+            <%
+                int start, end;
+                
+                if(request.getParameter("start") == null){
+                    start = 1;
+                    end = 10;
+                }
+                else{
+                    start = Integer.parseInt(request.getParameter("start"));
+                    end = Integer.parseInt(request.getParameter("end"));
+                }
+                
+            %>
+        
         <sql:query
-            var = "listExpenses" dataSource="${myDS}">
-            SELECT * FROM January;
+            var = "listExpenses" 
+            dataSource="${myDS}"
+            >
+            SELECT * FROM January where day between ? and ?;
+            <sql:param value="<%=start %>" />
+            <sql:param value="<%=end %>" />
         </sql:query>
             
-        
         <p>
             <center><h3>Kushboo Expenses</h3></center>
         </p>
@@ -43,6 +64,7 @@
                     <th>Cost</th>
                 </tr>
                 <c:forEach var = "item" items = "${listExpenses.rows}">
+                    
                     <tr>
                         
                         <td class = "rght"><c:out value="${item.day}" /></td>
@@ -57,7 +79,20 @@
                     </tr>
                     
                 </c:forEach>
+                
             </table>
+            
+            <%
+                if(start != 1){
+                out.println("<a href=http://localhost:9090/JavaDBProject/expenses.jsp"+"?start="+(start-10)+"&end="+(end-10)+">"+"Back"+"</a>");
+                }
+                start += 10;
+                end += 10;
+                out.println("<a href=http://localhost:9090/JavaDBProject/expenses.jsp"+"?start="+start+"&end="+end+">"+"Next"+"</a>");
+                if(start != 1){
+                }
+                
+            %>
         </div>
         
     </body>
